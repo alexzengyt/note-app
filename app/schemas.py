@@ -1,0 +1,24 @@
+from pydantic import BaseModel, Field
+from datetime import datetime
+
+class Notebase(BaseModel):
+    title: str = Field(..., min_length=1, max_length=200)
+    content: str = Field(..., min_length=1)
+
+class NoteCreate(Notebase):
+    pass
+
+class NoteUpdate(Notebase):
+    title: str | None
+    content: str | None
+    pass
+
+class NoteResponse(Notebase):
+    id: int
+    user_id: int
+    created_at: datetime
+    updated_at: datetime
+
+    # Adapter to Pydantic
+    class config:
+        from_attribute = True
